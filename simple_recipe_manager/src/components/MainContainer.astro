@@ -1,0 +1,155 @@
+---
+/**
+ * MainContainer.astro
+ * The primary application container for the SimpleRecipeManager app.
+ * Provides sidebar navigation, main content area, and theme settings.
+ * To be used as the core layout for all pages.
+ */
+
+// Sidebar navigation links (future: can be dynamic)
+const navLinks = [
+  { name: "Browse Recipes", icon: "🍲", path: "/" },
+  { name: "Add Recipe", icon: "➕", path: "/add" },
+  { name: "My Recipes", icon: "📖", path: "/my" },
+  { name: "Categories", icon: "🔖", path: "/categories" },
+  { name: "Login/Register", icon: "🔐", path: "/auth" }
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>SimpleRecipeManager</title>
+    <meta name="viewport" content="width=device-width" />
+    <style>
+      :root {
+        --primary: #4caf50;
+        --secondary: #ffc107;
+        --accent: #ff5722;
+        --sidebar-width: 220px;
+        --bg-light: #fafafa;
+        --text-main: #222;
+        --text-light: #666;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+        background: var(--bg-light);
+        color: var(--text-main);
+        min-height: 100vh;
+        height: 100%;
+      }
+      .app-main-layout {
+        display: flex;
+        min-height: 100vh;
+      }
+      .sidebar {
+        width: var(--sidebar-width);
+        background-color: var(--primary);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 2rem 1rem 1.5rem 1rem;
+        min-height: 100vh;
+        box-shadow: 2px 0 12px rgba(76,175,80,0.05);
+      }
+      .sidebar h1 {
+        font-size: 1.38rem;
+        margin-bottom: 2.4rem;
+        color: #fff;
+        letter-spacing: 1.5px;
+        text-align: left;
+        font-weight: 700;
+      }
+      nav {
+        flex-grow: 1;
+      }
+      .nav-link {
+        display: flex;
+        align-items: center;
+        padding: 0.85rem 1.1rem;
+        margin: 0.12rem 0;
+        border-radius: 8px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.06rem;
+        font-weight: 500;
+        transition: background 0.18s;
+      }
+      .nav-link.active, .nav-link:hover {
+        background: var(--secondary);
+        color: var(--primary);
+        text-decoration: none;
+      }
+      .nav-link .icon {
+        margin-right: 1rem;
+        font-size: 1.28em;
+      }
+      .sidebar-footer {
+        margin-top: 2.5rem;
+        text-align: center;
+        font-size: 0.88rem;
+        color: #e6ffe6;
+        opacity: 0.75;
+      }
+      .main-content {
+        flex: 1;
+        padding: 2.5rem 2.8rem;
+        background: var(--bg-light);
+        min-height: 100vh;
+        box-sizing: border-box;
+        overflow-x: auto;
+        transition: background 0.2s;
+      }
+      /* Responsive behavior */
+      @media (max-width: 750px) {
+        .sidebar {
+          width: 70px;
+          padding: 1rem 0.2rem;
+        }
+        .sidebar h1 {
+          font-size: 1rem;
+          margin-bottom: 1.1rem;
+          text-align: center;
+        }
+        .nav-link .icon {
+          margin-right: 0.2rem;
+        }
+        .nav-link {
+          font-size: 1rem;
+          padding: 0.7rem 0.45rem;
+          justify-content: center;
+        }
+        .sidebar-footer {
+          display: none;
+        }
+        .main-content {
+          padding: 1rem 0.35rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-main-layout">
+      <aside class="sidebar">
+        <h1>🍽️ SimpleRecipeManager</h1>
+        <nav>
+          {navLinks.map(link => (
+            <a class="nav-link" href={link.path} aria-label={link.name}>
+              <span class="icon">{link.icon}</span>
+              <span class="link-text">{link.name}</span>
+            </a>
+          ))}
+        </nav>
+        <div class="sidebar-footer">
+          &copy; {new Date().getFullYear()} SimpleRecipeManager
+        </div>
+      </aside>
+      <main class="main-content">
+        <slot />
+      </main>
+    </div>
+  </body>
+</html>
